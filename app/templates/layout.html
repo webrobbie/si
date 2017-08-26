@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>LéaSi - {% block title %}{% endblock %}</title>
+<!-- Favicon -->
+<link rel="icon" href="{{ url_for('static',filename='img/favicon1.png') }}">
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">-->
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static',filename='css/custom.css') }}">
+<script type='text/javascript' src='{{ url_for("static",filename="js/custom.js") }}'></script> 
+</head>
+<body>
+
+<div class='container-fluid'>
+  <div class='row text-center'>
+    <div class='col-md-2'></div>
+    <header class='col-12 col-md-8 header'>
+      <img src='{{ url_for("static",filename="img/si4_135px.jpg") }}'>
+    </header>
+    <div class='col-md-2'></div>
+    <!-- <div class='col-xs-0 col-md-3 topright'> -->
+    </div>
+  </div>
+</div>
+<div class='container-fluid'>
+  <div class='row'>
+    <div class='col-md-1'></div>
+    <main class='col-md-7 col-xs'>
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class='flashes'>
+          {% for category,message in messages %}
+            <li class='alert-{{ category }}' style='list-style: none'>{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+{% block content %}{% endblock %}
+    </main>
+    <div class='col-md-1'></div>
+    <br>
+    <nav class='nav flex-column col-md-3 col-xs'>
+      <a class='nav-link' href='{{ url_for("login") }}'>Login</a>
+      <a class='nav-link' href='{{ url_for("index") }}'>Index</a>
+      <a class='nav-link' href='{{ url_for("new_post") }}'>New post</a>
+      <!-- tags -->
+      <form method='post'>
+      {% for tag in tags %}
+        <label class='clickable'>
+          <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+          {{ tag.name }}
+        </label><br>
+      {% endfor %}
+        <input type='text' size='15' name='keyword'>
+        <button type='submit' class='btn btn-primary'>Search</button>
+      </form>
+    </nav>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static',filename='js/jquery-3.1.1.slim.min.js') }}"></script>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
+<!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+<script src="{{ url_for('static',filename='js/tether.min.js') }}"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>-->
+<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
+</body>
+</html>

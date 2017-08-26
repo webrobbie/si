@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block title %} - Test{% endblock %}
+{% block content %}
+
+<!-- use modal -->
+<div class='row text-center'>
+  
+  <div class='col-4'>
+    <a href='{{ url_for("static",filename="upload/cheval.jpg") }}' class='d-block mb-4 h-100'>
+      <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/cheval.jpg") }}'>
+    </a> 
+  </div>
+  <div class='col-4'>
+    <a href='#' class='d-block mb-4 h-100'>
+      <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/annecy.jpg") }}'>
+    </a> 
+  </div>
+  <div class='col-4'>
+    <a href='#' class='d-block mb-4 h-100'>
+      <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/bretagne.jpg") }}'>
+    </a> 
+  </div>
+  <div class='col-4'>
+    <a href='#' class='d-block mb-4 h-100'>
+      <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/champs.jpg") }}'>
+    </a> 
+  </div>
+  <div class='col-4'>
+    <a href='#' class='d-block mb-4 h-100'>
+      <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/fruits_de_mer.jpg") }}'>
+    </a> 
+  </div>
+<!-- <img class='img-fluid mx-auto d-block w-25 h-25' src='{{ url_for("static",filename="upload/cheval.jpg") }}'> -->
+</div>
+
+{% endblock %}

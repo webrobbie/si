@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+{% block title %} - New album{% endblock %}
+{% block content %}
+
+<h3>New album</h3>
+<br>
+
+<form method='post' enctype='multipart/form-data'>
+{{ form.csrf_token }}
+  <!-- title -->
+  <fieldset class='form-group'>
+    <h5>{{ form.title.label }}</h5>
+    <div class='row'>
+      <div class='col-md-6'>
+        {{ form.title(class_='form-control') }}
+      </div>
+      <div class='col-md-6'>
+        <span class='alert-danger'>{{ form.title.errors[0] }}</span>
+      </div>
+    </div>
+  </fieldset>
+  <!-- body -->
+  <fieldset class='form-group'>
+    <h5>{{ form.body.label }}</h5>
+    <div class='row'>
+      <div class='col-md-9'>
+        {{ form.body(class_='form-control') }}
+      </div>
+      <div class='col-md-3'>
+        <span class='alert-danger'>{{ form.body.errors[0] }}</span>
+      </div>
+    </div>
+  </fieldset>
+  <!-- file -->
+  <fieldset class='form-group'>
+    <h5>{{ form.file.label }}</h5>
+    <div class='row'>
+      <div class='col-xs-6 col-md-4'>
+         {{ form.file(class_='form-control',multiple='') }} 
+      </div>
+      <div class='col-xs-6 col-md-4'>
+        <span class='alert-danger'>{{ form.file.errors[0] }}</span>
+      </div>
+    </div>
+  </fieldset>
+  <!-- tags -->
+  <fieldset class='form-group'>
+    <h5>Tags</h5>
+      {% for tag in tags %}
+        <label class='clickable'>
+          <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+          {{ tag.name }}
+        </label>
+      {% endfor %}
+  </fieldset>
+  <!-- new tag -->
+  <fieldset class='form-group'>
+    <h5>New tags</h5>
+    <div class='row'>
+      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
+      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
+      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
+      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
+    </div>
+  </fieldset>
+  <!-- submit -->
+  <button type='submit' class='btn btn-primary'>Submit</button>
+</form>
+
+{% endblock %}

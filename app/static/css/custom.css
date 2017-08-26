@@ -1,0 +1,18 @@
+body {
+  background: rgb(245,245,245);
+}
+header {
+  padding: 0.5em;
+  background: white;
+}
+nav {
+  padding: 1em;
+  text-align: center;
+  font-size: 1.2em;
+  background: rgb(215,215,235);
+  /* background: linear-gradient(to bottom, rgb(245,220,235),rgb(215,215,235) 1%,rgb(215,215,235)); */
+}
+main {
+  padding: 1em;
+  background: white;
+}

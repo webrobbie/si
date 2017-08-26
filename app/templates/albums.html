@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %} - Albums{% endblock %}
+{% block content %}
+
+<h3>Albums</h3>
+<br>
+{% for album in albums %}
+  <div class='card card-outline-secondary'>
+    <div class='card-header'>
+      <h3>{{ album.title }}</h3>
+      <small class='card-subtitle text-muted'>{{ album.time.month }}/{{ album.time.day }}/{{ album.time.year }}</small>
+      <br>
+      <small class='text-muted'><em>{{ album.tags|join(', ',attribute='name') }}</em></small>
+    </div>
+    <div class='card-block'>
+      <p class='card-text'>{{ album.body|safe|truncate(200,False) }}</p>
+    </div>
+    <div class='row text-center'>
+    {% for image in album.images %}
+      <div class='col-3'>
+        <a href='{{ url_for("static",filename="upload/"+image.filename) }}' class='d-block mb-4 h-100'>
+          <img class='img-fluid img-thumbnail album' src='{{ url_for("static",filename="upload/"+image.filename) }}'>
+        </a> 
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <br>
+{% endfor %}
+
+{% endblock %}
