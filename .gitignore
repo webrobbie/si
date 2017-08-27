@@ -3,4 +3,5 @@ run.py
 __pycache__
 *.pyc
 si.db
+upload/*
 notes
