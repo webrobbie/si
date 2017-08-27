@@ -9,6 +9,9 @@
     <div class='card-header'>
       <h3>{{ album.title }}</h3>
       <small class='card-subtitle text-muted'>{{ album.time.month }}/{{ album.time.day }}/{{ album.time.year }}</small>
+      {% if current_user.is_authenticated %}
+        <small><a class='text-danger' href='{{ url_for("delete_album",album_id=album.id) }}'>Delete</a></small>
+      {% endif %}
       <br>
       <small class='text-muted'><em>{{ album.tags|join(', ',attribute='name') }}</em></small>
     </div>

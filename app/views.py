@@ -98,28 +98,6 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('index'))
 #}}}
-#LOGIN{{{
-@app.route('/login',methods=['GET','POST'])
-def login():
-    form=LoginForm()
-    if form.validate_on_submit():
-        sisi=Sisi.query.first()
-        if sisi.check_password(form.password.data):
-            login_user(sisi)
-            flash('Welcome, Sisi!','success')
-            return redirect(url_for('index'))
-        flash('Wrong password...','danger')
-        return redirect(url_for('login'))
-    return render_template('login.html',form=form)
-#}}}
-#LOGOUT{{{
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You were just logged out.','info')
-    return redirect(url_for('index'))
-#}}}
 #ALBUMS{{{
 @app.route('/albums')
 def albums():
@@ -155,6 +133,37 @@ def new_album():
         return redirect(url_for('albums'))
     tags=Tag.query.all()
     return render_template('new_album.html',form=form,tags=tags)
+#}}}
+#DELETE ALBUM{{{
+@app.route('/delete_album/<album_id>')
+@login_required
+def delete_album(album_id):
+    a=Album.query.get(album_id)
+    db.session.delete(a)
+    db.session.commit()
+    return redirect(url_for('index'))
+#}}}
+#LOGIN{{{
+@app.route('/login',methods=['GET','POST'])
+def login():
+    form=LoginForm()
+    if form.validate_on_submit():
+        sisi=Sisi.query.first()
+        if sisi.check_password(form.password.data):
+            login_user(sisi)
+            flash('Welcome, Sisi!','success')
+            return redirect(url_for('index'))
+        flash('Wrong password...','danger')
+        return redirect(url_for('login'))
+    return render_template('login.html',form=form)
+#}}}
+#LOGOUT{{{
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You were just logged out.','info')
+    return redirect(url_for('index'))
 #}}}
 #TEST{{{
 @app.route('/test')
