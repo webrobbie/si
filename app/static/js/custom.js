@@ -34,16 +34,16 @@ function autoImg(input){
   var end=textarea.selectionEnd;
   var alltext=textarea.value;
   /* local fake path vs online */
-  if (input.value.search('/')) {
-    var upload_folder='static/upload/';
-    var filename=input.value.split('\\')[2];
-  } else {
-    var upload_folder='/static/upload/';
-    var filename=input.value;
-  }
+  /*if (input.value.search('/')) {*/
+    /*var upload_folder='static/upload/';*/
+    /*var filename=input.value.split('\\')[2];*/
+  /*} else {*/
+    /*var upload_folder='/static/upload/';*/
+    /*var filename=input.value;*/
+  /*}*/
+  var filename=input.value;
   var newtext=alltext.substring(0,start)+"<img src='/static/upload/"+filename+"' alt='"+filename+"' class='img-fluid'>"+alltext.substring(end,alltext.length);
   textarea.value=newtext;
-  alert(upload_folder);
 }
 function test(el){
   alert(document.querySelectorAll('input[type=file]').length-1);
