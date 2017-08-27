@@ -2,7 +2,7 @@ body {
   background: rgb(240,240,245);
 }
 header {
-  background: linear-gradient(to right,rgb(240,240,245),white 30%, rgb(240,240,245));
+  background: linear-gradient(to right,rgb(240,240,245),white 50%, rgb(240,240,245));
 }
 header * {
   cursor: default;
