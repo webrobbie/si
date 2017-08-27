@@ -1,18 +1,45 @@
 body {
-  background: rgb(245,245,245);
+  background: rgb(240,240,245);
 }
 header {
-  padding: 0.5em;
-  background: white;
+  background: linear-gradient(to right,rgb(240,240,245),white 15%, rgb(240,240,245));
+}
+header * {
+  cursor: default;
+}
+header img {
+  margin: 1em;
 }
 nav {
   padding: 1em;
-  text-align: center;
-  font-size: 1.2em;
-  background: rgb(215,215,235);
-  /* background: linear-gradient(to bottom, rgb(245,220,235),rgb(215,215,235) 1%,rgb(215,215,235)); */
+  background: white;
 }
 main {
   padding: 1em;
   background: white;
+}
+h3 {
+  color: rgb(120,120,150);
+}
+a.default {
+  color: rgb(120,120,150);
+}
+a.default:hover {
+  color: rgb(100,100,130);
+}
+a.default:active {
+  color: white;
+}
+.btn.default {
+  color: white;
+  background: rgb(120,120,150);
+}
+.btn.default:hover {
+  color: rgb(120,120,150);
+  border: 1px solid rgb(120,120,150);
+  background: white;
+}
+.btn.default:active {
+  color: white;
+  background: rgb(240,240,245);
 }

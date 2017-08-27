@@ -9,8 +9,8 @@ from .models import *
 from .utils import *
 
 #ADMIN{{{
-admin.add_view(ModelView(Post,db.session))
-admin.add_view(ModelView(Tag,db.session))
+#admin.add_view(ModelView(Post,db.session))
+#admin.add_view(ModelView(Tag,db.session))
 #admin.add_view(ModelView(Comment,db.session))
 #admin.add_view(ModelView(Visitor,db.session))
 #}}}
@@ -18,6 +18,7 @@ admin.add_view(ModelView(Tag,db.session))
 @app.route('/',methods=['GET','POST'])
 def index():
     posts=Post.query.all()
+    posts.sort(key=operator.attrgetter('time'))
     tags=Tag.query.all()
     if request.method=='POST':
         kw=request.form['keyword']
@@ -37,13 +38,14 @@ def index():
 #}}}
 #NEW POST{{{
 @app.route('/new_post',methods=['GET','POST'])
+@login_required
 def new_post():
     form=NewPostForm()
     if form.validate_on_submit():
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
             if f.filename in form.body.data:
-                f.save(app.config['UPLOAD_FOLDER']+f.filename)
+                f.save(app.config['UPLOAD_TO']+f.filename)
         p=Post(
             title=form.title.data,
             body=re.sub(r'\n','<br>',form.body.data),
@@ -63,6 +65,7 @@ def new_post():
 #}}}
 #EDIT POST{{{
 @app.route('/edit_post/<post_id>',methods=['GET','POST'])
+@login_required
 def edit_post(post_id):
     form=NewPostForm()
     post=Post.query.get(post_id)
@@ -88,6 +91,7 @@ def edit_post(post_id):
 #}}}
 #DELETE POST{{{
 @app.route('/delete_post/<post_id>')
+@login_required
 def delete_post(post_id):
     p=Post.query.get(post_id)
     db.session.delete(p)
@@ -110,25 +114,11 @@ def login():
 #}}}
 #LOGOUT{{{
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You were just logged out.','info')
     return redirect(url_for('index'))
-#}}}
-#TEST{{{
-@app.route('/test',methods=['GET','POST'])
-def test():
-    return render_template('test.html')
-#}}}
-#TEST2{{{
-@app.route('/test2',methods=['GET','POST'])
-def test2():
-    if request.method=='POST':
-        # files=request.files.getlist('file')
-        # return '<br>'.join([f.filename for f in files])
-        # return request.form['file']
-        return ', '.join([f.filename for f in request.files.getlist('file')])
-    return render_template('test2.html')
 #}}}
 #ALBUMS{{{
 @app.route('/albums')
@@ -139,6 +129,7 @@ def albums():
 #}}}
 #NEW ALBUM{{{
 @app.route('/new_album',methods=['GET','POST'])
+@login_required
 def new_album():
     form=NewAlbumForm()
     if form.validate_on_submit():
@@ -148,7 +139,7 @@ def new_album():
             time=datetime.now())
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
-            f.save(app.config['UPLOAD_FOLDER']+f.filename)
+            f.save(app.config['UPLOAD_TO']+f.filename)
             image=Image(filename=f.filename)
             image.album=album
             db.session.add(image)
@@ -164,4 +155,9 @@ def new_album():
         return redirect(url_for('albums'))
     tags=Tag.query.all()
     return render_template('new_album.html',form=form,tags=tags)
+#}}}
+#TEST{{{
+@app.route('/test')
+def test():
+    return 'test'
 #}}}

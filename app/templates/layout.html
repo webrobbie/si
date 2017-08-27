@@ -18,49 +18,72 @@
 <body>
 
 <div class='container-fluid'>
-  <div class='row text-center'>
-    <div class='col-md-2'></div>
-    <header class='col-12 col-md-8 header'>
-      <img src='{{ url_for("static",filename="img/si4_135px.jpg") }}'>
-    </header>
-    <div class='col-md-2'></div>
-    <!-- <div class='col-xs-0 col-md-3 topright'> -->
+  <br>
+  <div class='row'>
+    <div class='col-md-1'></div>
+
+    <!-- HEADER -->
+    <div class='col-12 col-md-10'>
+      <header class='row'>
+        <div class='col-6 text-center'>
+          <a class='nav-link default' href='{{ url_for("login") }}'><img src='{{ url_for("static",filename="img/si4_135px.jpg") }}'></a>
+        </div>
+      </header>
+      <br>
+      <div class='row'>
+        <!-- MAIN -->
+        <main class='col-12 col-md-8'>
+          {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul class='flashes'>
+              {% for category,message in messages %}
+                <li class='alert-{{ category }}' style='list-style: none'>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </main>
+        <div class='col-md-1'></div>
+        <!-- NAV -->
+        <nav class='nav flex-column col-xs-12 col-md-3 text-center'>
+          <a class='nav-link default' href='{{ url_for("index") }}'>Blog</a>
+          <a class='nav-link default' href='{{ url_for("albums") }}'>Albums</a>
+          {% if current_user.is_authenticated %}
+            <a class='nav-link default' href='{{ url_for("new_post") }}'>New post</a>
+            <a class='nav-link default' href='{{ url_for("new_album") }}'>New album</a>
+          {% endif %}
+          <br>
+          <form method='post'>
+          {% for tag in tags %}
+            <label class='clickable'>
+              <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+              {{ tag.name }}
+            </label><br>
+          {% endfor %}
+          <br>
+            <input type='text' size='10' name='keyword'>
+            <button type='submit' class='btn btn-sm default'>Search</button>
+          </form>
+        </nav>
+      </div>
+    </div>
+
     </div>
   </div>
 </div>
+<!-- main -->
 <div class='container-fluid'>
   <div class='row'>
     <div class='col-md-1'></div>
-    <main class='col-md-7 col-xs'>
-      {% with messages=get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <ul class='flashes'>
-          {% for category,message in messages %}
-            <li class='alert-{{ category }}' style='list-style: none'>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-{% block content %}{% endblock %}
-    </main>
+      <div class='col-md-7 col-xs'>
+        <div class='row'>
     <div class='col-md-1'></div>
     <br>
-    <nav class='nav flex-column col-md-3 col-xs'>
-      <a class='nav-link' href='{{ url_for("login") }}'>Login</a>
-      <a class='nav-link' href='{{ url_for("index") }}'>Index</a>
-      <a class='nav-link' href='{{ url_for("new_post") }}'>New post</a>
-      <!-- tags -->
-      <form method='post'>
-      {% for tag in tags %}
-        <label class='clickable'>
-          <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
-          {{ tag.name }}
-        </label><br>
-      {% endfor %}
-        <input type='text' size='15' name='keyword'>
-        <button type='submit' class='btn btn-primary'>Search</button>
-      </form>
-    </nav>
+    <!-- nav -->
+          
+        </div>
+      </div>
   </div>
 </div>
 
