@@ -38,7 +38,7 @@ def blog():
 #}}}
 #NEW POST{{{
 @app.route('/new_article',methods=['GET','POST'])
-# @login_required
+@login_required
 def new_article():
     form=NewArticleForm()
     if form.validate_on_submit():
