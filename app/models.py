@@ -1,5 +1,6 @@
 from app import db,bcrypt
 from flask_login import UserMixin
+import re
 
 tags=db.Table(
     'tags',
@@ -33,6 +34,23 @@ class Post(db.Model):
         secondary=tags,
         backref=db.backref('posts'),
         lazy='dynamic')
+    def body_to_html(self):
+        html=self.body
+        #linebreak
+        html=re.sub(r'\n',r'<br>',html)
+        #image
+        pattern=re.compile(r'\*img\*(.*?)\*img\*')
+        html=pattern.sub(r'<img src="static/upload/\1" alt="\1">',html)
+        #bold
+        pattern=re.compile(r'\*b\*(.*?)\*b\*')
+        html=pattern.sub(r'<strong>\1</strong>',html)
+        #italic
+        pattern=re.compile(r'\*i\*(.*?)\*i\*')
+        html=pattern.sub(r'<em>\1</em>',html)
+        #underline
+        pattern=re.compile(r'\*u\*(.*?)\*u\*')
+        html=pattern.sub(r'<u>\1</u>',html)
+        return html
 
 class Tag(db.Model):
     id=db.Column(db.Integer,primary_key=True)

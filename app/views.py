@@ -14,6 +14,12 @@ from .utils import *
 #admin.add_view(ModelView(Comment,db.session))
 #admin.add_view(ModelView(Visitor,db.session))
 #}}}
+@app.context_processor
+def utility_processor():
+    def test():
+        return 'something something'
+#body_to_html
+    return dict(test=test)
 #INDEX{{{
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -38,7 +44,7 @@ def index():
 #}}}
 #NEW POST{{{
 @app.route('/new_post',methods=['GET','POST'])
-@login_required
+# @login_required
 def new_post():
     form=NewPostForm()
     if form.validate_on_submit():
@@ -48,7 +54,7 @@ def new_post():
                 f.save(app.config['UPLOAD_TO']+f.filename)
         p=Post(
             title=form.title.data,
-            body=re.sub(r'\n','<br>',form.body.data),
+            body=form.body.data,
             time=datetime.now())
         for tag_id in request.form.getlist('tag_id'):
             p.tags.append(Tag.query.get(tag_id))
@@ -83,6 +89,7 @@ def edit_post(post_id):
         
     tags=Tag.query.all()
     post_tags=post.tags.all()
+    form.body.data=post.body#pre-populate textarea in template not working
     return render_template('edit_post.html',
         post=post,
         form=form,
