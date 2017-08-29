@@ -40,7 +40,7 @@ class Post(db.Model):
         html=re.sub(r'\n',r'<br>',html)
         #image
         pattern=re.compile(r'\*img\*(.*?)\*img\*')
-        html=pattern.sub(r'<img src="static/upload/\1" alt="\1">',html)
+        html=pattern.sub(r'<img class="img-fluid" src="static/upload/\1" alt="\1">',html)
         #bold
         pattern=re.compile(r'\*b\*(.*?)\*b\*')
         html=pattern.sub(r'<strong>\1</strong>',html)
