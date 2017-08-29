@@ -21,6 +21,12 @@ main {
 h3 {
   color: rgb(120,120,150);
 }
+a.to-article {
+  color: rgb(60,60,90);
+}
+a.to-article:hover {
+  color: rgb(100,100,130);
+}
 a.default {
   color: rgb(120,120,150);
 }
@@ -42,4 +48,7 @@ a.default:active {
 .btn.default:active {
   color: white;
   background: rgb(240,240,245);
+}
+input[type='checkbox'] {
+  opacity: 0;
 }

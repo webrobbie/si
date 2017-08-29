@@ -5,7 +5,7 @@ import re
 tags=db.Table(
     'tags',
     db.Column('tag_id',db.Integer,db.ForeignKey('tag.id')),
-    db.Column('post_id',db.Integer,db.ForeignKey('post.id')))
+    db.Column('article_id',db.Integer,db.ForeignKey('article.id')))
 
 class Sisi(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
@@ -22,25 +22,28 @@ class Comment(db.Model):
     time=db.Column(db.DateTime)
     title=db.Column(db.String(48))
     body=db.Column(db.String(1024))
-    post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+    article_id=db.Column(db.Integer,db.ForeignKey('article.id'))
 
-class Post(db.Model):
+class Article(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     time=db.Column(db.DateTime)
     title=db.Column(db.String(48))
     body=db.Column(db.String(1024))
-    comments=db.relationship('Comment',backref='post',lazy='dynamic')
+    comments=db.relationship('Comment',backref='article',lazy='dynamic')
     tags=db.relationship('Tag',
         secondary=tags,
-        backref=db.backref('posts'),
+        backref=db.backref('articles'),
         lazy='dynamic')
-    def body_to_html(self):
+    def body_to_html(self,page='blog'):
         html=self.body
         #linebreak
         html=re.sub(r'\n',r'<br>',html)
         #image
         pattern=re.compile(r'\*img\*(.*?)\*img\*')
-        html=pattern.sub(r'<img class="img-fluid" src="static/upload/\1" alt="\1">',html)
+        if page=='blog':
+            html=pattern.sub(r'<img class="img-fluid" src="static/upload/\1" alt="\1">',html)
+        elif page=='article':
+            html=pattern.sub(r'<img class="img-fluid" src="../static/upload/\1" alt="\1">',html)
         #bold
         pattern=re.compile(r'\*b\*(.*?)\*b\*')
         html=pattern.sub(r'<strong>\1</strong>',html)

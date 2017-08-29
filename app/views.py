@@ -9,44 +9,44 @@ from .models import *
 from .utils import *
 
 #ADMIN{{{
-# admin.add_view(ModelView(Post,db.session))
+# admin.add_view(ModelView(Article,db.session))
 # admin.add_view(ModelView(Album,db.session))
 # admin.add_view(ModelView(Tag,db.session))
 # admin.add_view(ModelView(Comment,db.session))
 #}}}
-#INDEX{{{
+#BLOG{{{
 @app.route('/',methods=['GET','POST'])
-def index():
-    posts=Post.query.all()
-    posts.sort(key=operator.attrgetter('time'))
+def blog():
+    articles=Article.query.all()
+    articles.sort(key=operator.attrgetter('time'))
     tags=Tag.query.all()
     if request.method=='POST':
         kw=request.form['keyword']
         filter_tags=[]
         for tag_id in request.form.getlist('tag_id'):
             filter_tags.append(Tag.query.get(tag_id))
-        ordered_posts=[]
-        for post in posts:
-            score=len(set(post.tags).intersection(filter_tags))
+        ordered_articles=[]
+        for article in articles:
+            score=len(set(article.tags).intersection(filter_tags))
             if not filter_tags:
                 score=1
 #special form for year, month, day, before, after...
-                ordered_posts.append((score,post))
-        ordered_posts.sort(reverse=True)
-        posts=[post[1] for post in ordered_posts]
-    return render_template('index.html',posts=posts,tags=tags)
+                ordered_articles.append((score,article))
+        ordered_articles.sort(reverse=True)
+        articles=[article[1] for article in ordered_articles]
+    return render_template('blog.html',articles=articles,tags=tags)
 #}}}
 #NEW POST{{{
-@app.route('/new_post',methods=['GET','POST'])
-@login_required
-def new_post():
-    form=NewPostForm()
+@app.route('/new_article',methods=['GET','POST'])
+# @login_required
+def new_article():
+    form=NewArticleForm()
     if form.validate_on_submit():
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
             if f.filename in form.body.data:
                 f.save(app.config['UPLOAD_TO']+f.filename)
-        p=Post(
+        p=Article(
             title=form.title.data,
             body=form.body.data,
             time=datetime.now())
@@ -59,45 +59,51 @@ def new_post():
                 p.tags.append(t)
         db.session.add(p)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('blog'))
     tags=Tag.query.all()
-    return render_template('new_post.html',form=form,tags=tags)
+    return render_template('new_article.html',form=form,tags=tags)
+#}}}
+#ARTICLE PAGE{{{
+@app.route('/article/<article_id>')
+def article(article_id):
+    article=Article.query.get(article_id)
+    return render_template('article.html',article=article)
 #}}}
 #EDIT POST{{{
-@app.route('/edit_post/<post_id>',methods=['GET','POST'])
+@app.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
-def edit_post(post_id):
-    form=NewPostForm()
-    post=Post.query.get(post_id)
+def edit_article(article_id):
+    form=NewArticleForm()
+    article=Article.query.get(article_id)
     if request.method=='POST':
-        post.title=form.title.data
-        post.body=form.body.data
-        post.tags=[Tag.query.get(tag_id) for tag_id in request.form.getlist('tag_id')]
+        article.title=form.title.data
+        article.body=form.body.data
+        article.tags=[Tag.query.get(tag_id) for tag_id in request.form.getlist('tag_id')]
         for new_tag in request.form.getlist('new_tags'):
             if new_tag:
                 t=Tag(name=new_tag)
                 db.session.add(t)
-                p.tags.append(t)
+                article.tags.append(t)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('blog'))
         
     tags=Tag.query.all()
-    post_tags=post.tags.all()
-    form.body.data=post.body#pre-populate textarea in template not working
-    return render_template('edit_post.html',
-        post=post,
+    article_tags=article.tags.all()
+    form.body.data=article.body#pre-populate textarea in template not working
+    return render_template('edit_article.html',
+        article=article,
         form=form,
         tags=tags,
-        post_tags=post_tags)
+        article_tags=article_tags)
 #}}}
 #DELETE POST{{{
-@app.route('/delete_post/<post_id>')
+@app.route('/delete_article/<article_id>')
 @login_required
-def delete_post(post_id):
-    p=Post.query.get(post_id)
+def delete_article(article_id):
+    p=Article.query.get(article_id)
     db.session.delete(p)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('blog'))
 #}}}
 #ALBUMS{{{
 @app.route('/albums')
@@ -142,7 +148,7 @@ def delete_album(album_id):
     a=Album.query.get(album_id)
     db.session.delete(a)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('blog'))
 #}}}
 #LOGIN{{{
 @app.route('/login',methods=['GET','POST'])
@@ -153,7 +159,7 @@ def login():
         if sisi.check_password(form.password.data):
             login_user(sisi)
             flash('Welcome, Sisi!','success')
-            return redirect(url_for('index'))
+            return redirect(url_for('blog'))
         flash('Wrong password...','danger')
         return redirect(url_for('login'))
     return render_template('login.html',form=form)
@@ -164,7 +170,7 @@ def login():
 def logout():
     logout_user()
     flash('You were just logged out.','info')
-    return redirect(url_for('index'))
+    return redirect(url_for('blog'))
 #}}}
 #TEST{{{
 @app.route('/test')

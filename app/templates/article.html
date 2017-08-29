@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block title %}Article{% endblock %}
+{% block content %}
+
+<h3>{{ article.title }}</h3>
+<hr>
+<p>{{ article.body_to_html('article')|safe }}</p>
+
+{% endblock %}
