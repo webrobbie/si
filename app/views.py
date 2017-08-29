@@ -9,17 +9,15 @@ from .models import *
 from .utils import *
 
 #ADMIN{{{
-#admin.add_view(ModelView(Post,db.session))
-#admin.add_view(ModelView(Tag,db.session))
-#admin.add_view(ModelView(Comment,db.session))
-#admin.add_view(ModelView(Visitor,db.session))
+@login_required
+admin.add_view(ModelView(Post,db.session))
+@login_required
+admin.add_view(ModelView(Album,db.session))
+@login_required
+admin.add_view(ModelView(Tag,db.session))
+@login_required
+admin.add_view(ModelView(Comment,db.session))
 #}}}
-@app.context_processor
-def utility_processor():
-    def test():
-        return 'something something'
-#body_to_html
-    return dict(test=test)
 #INDEX{{{
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -44,7 +42,7 @@ def index():
 #}}}
 #NEW POST{{{
 @app.route('/new_post',methods=['GET','POST'])
-# @login_required
+@login_required
 def new_post():
     form=NewPostForm()
     if form.validate_on_submit():
