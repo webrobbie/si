@@ -9,14 +9,10 @@ from .models import *
 from .utils import *
 
 #ADMIN{{{
-@login_required
-admin.add_view(ModelView(Post,db.session))
-@login_required
-admin.add_view(ModelView(Album,db.session))
-@login_required
-admin.add_view(ModelView(Tag,db.session))
-@login_required
-admin.add_view(ModelView(Comment,db.session))
+# admin.add_view(ModelView(Post,db.session))
+# admin.add_view(ModelView(Album,db.session))
+# admin.add_view(ModelView(Tag,db.session))
+# admin.add_view(ModelView(Comment,db.session))
 #}}}
 #INDEX{{{
 @app.route('/',methods=['GET','POST'])
