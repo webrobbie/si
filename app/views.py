@@ -173,8 +173,6 @@ def delete_album(album_id):
 #LOGIN{{{
 @app.route('/login',methods=['GET','POST'])
 def login():
-    from flask_sslify import SSLify
-    sslify=SSLify(app)
     form=LoginForm()
     if form.validate_on_submit():
         sisi=Sisi.query.first()
