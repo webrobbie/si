@@ -6,8 +6,8 @@
 <br>
 {% for article in articles %}
   <div class='card card-outline-secondary'>
-    <div class='card-header'>
     <a class='to-article' href='{{ url_for("article",article_id=article.id) }}'>
+    <div class='card-header'>
       <h4>{{ article.title }}</h4>
       <small class='card-subtitle text-muted'>{{ article.time.month }}/{{ article.time.day }}/{{ article.time.year }}</small>
       <br>
