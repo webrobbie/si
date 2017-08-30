@@ -20,7 +20,7 @@ class Sisi(db.Model,UserMixin):
 class Comment(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     time=db.Column(db.DateTime)
-    title=db.Column(db.String(48))
+    author=db.Column(db.String(48))
     body=db.Column(db.String(1024))
     article_id=db.Column(db.Integer,db.ForeignKey('article.id'))
 

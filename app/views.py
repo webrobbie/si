@@ -40,7 +40,7 @@ def blog():
 @app.route('/new_article',methods=['GET','POST'])
 @login_required
 def new_article():
-    form=NewArticleForm()
+    form=ArticleForm()
     if form.validate_on_submit():
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
@@ -64,16 +64,26 @@ def new_article():
     return render_template('new_article.html',form=form,tags=tags)
 #}}}
 #ARTICLE PAGE{{{
-@app.route('/article/<article_id>')
+@app.route('/article/<article_id>',methods=['GET','POST'])
 def article(article_id):
+    form=CommentForm()
     article=Article.query.get(article_id)
-    return render_template('article.html',article=article)
+    if form.validate_on_submit():
+        c=Comment(
+            author=form.author.data,
+            body=form.body.data,
+            article=article,
+            time=datetime.now())
+        db.session.add(c)
+        db.session.commit()
+        return redirect(url_for('article',article_id=article_id))
+    return render_template('article.html',form=form,article=article)
 #}}}
 #EDIT POST{{{
 @app.route('/edit_article/<article_id>',methods=['GET','POST'])
 @login_required
 def edit_article(article_id):
-    form=NewArticleForm()
+    form=ArticleForm()
     article=Article.query.get(article_id)
     if request.method=='POST':
         article.title=form.title.data
@@ -105,6 +115,16 @@ def delete_article(article_id):
     db.session.commit()
     return redirect(url_for('blog'))
 #}}}
+#DELETE COMMENT{{{
+@app.route('/delete_comment/<comment_id>')
+@login_required
+def delete_comment(comment_id):
+    c=Comment.query.get(comment_id)
+    article_id=c.article.id
+    db.session.delete(c)
+    db.session.commit()
+    return redirect(url_for('article',article_id=article_id))
+#}}}
 #ALBUMS{{{
 @app.route('/albums')
 def albums():
@@ -116,7 +136,7 @@ def albums():
 @app.route('/new_album',methods=['GET','POST'])
 @login_required
 def new_album():
-    form=NewAlbumForm()
+    form=AlbumForm()
     if form.validate_on_submit():
         album=Album(
             title=form.title.data,

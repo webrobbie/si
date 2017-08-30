@@ -5,20 +5,20 @@
 <h3>Blog</h3>
 <br>
 {% for article in articles %}
-  <div class='card card-outline-secondary'>
-    <a class='to-article' href='{{ url_for("article",article_id=article.id) }}'>
-    <div class='card-header'>
-      <h4>{{ article.title }}</h4>
-      <small class='card-subtitle text-muted'>{{ article.time.month }}/{{ article.time.day }}/{{ article.time.year }}</small>
-      <br>
-      <small class='text-muted'><em>{{ article.tags|join(', ',attribute='name') }}</em></small>
+  <a class='to-article' href='{{ url_for("article",article_id=article.id) }}'>
+    <div class='card card-outline-secondary'>
+      <div class='card-header'>
+        <h4>{{ article.title }}</h4>
+        <small class='card-subtitle text-muted'>{{ article.time.month }}/{{ article.time.day }}/{{ article.time.year }}</small>
+        <br>
+        <small class='text-muted'><em>{{ article.tags|join(', ',attribute='name') }}</em></small>
+      </div>
+      <div class='card-block'>
+        <p class='card-text'>{{ article.body_to_html('blog')|safe|truncate(200,False,' (...)') }}</p>
+      </div>
     </div>
-    <div class='card-block'>
-      <p class='card-text'>{{ article.body_to_html('blog')|safe|truncate(200,False,'(...)') }}</p>
-    </a>
-    </div>
-  </div>
-  <br>
+    <br>
+  </a>
 {% endfor %}
 
 {% endblock %}

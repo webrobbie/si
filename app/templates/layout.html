@@ -56,9 +56,9 @@
           <br>
           <form method='post'>
           {% for tag in tags %}
-            <label class='clickable'>
+            <label class='clickable' onclick='highlightLabel(this)'>
               <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
-              {{ tag.name }}
+              {{ tag.name }}&nbsp;&nbsp;&nbsp;
             </label><br>
           {% endfor %}
           <br>

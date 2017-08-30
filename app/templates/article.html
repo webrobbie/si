@@ -9,5 +9,56 @@
 {% endif %} 
 <hr>
 <p>{{ article.body_to_html('article')|safe }}</p>
+<hr>
+<br>
+
+<h4>Comments</h4>
+{% for comment in article.comments %}
+<div class='card card-outline-secondary'>
+  <div class='card-header'>
+    <h5>{{ comment.author }}</h5>
+    <small class='card-subtitle text-muted'>{{ comment.time.month }}/{{ comment.time.day }}/{{ comment.time.year }}</small>
+    {% if current_user.is_authenticated %} 
+      <small><a class='text-danger' href='{{ url_for("delete_comment",comment_id=comment.id) }}'>Delete</a></small>
+    {% endif %} 
+  </div>
+  <div class='card-block'>
+    <p class='card-text'>{{ comment.body }}</p>
+  </div>
+</div>
+<br>
+{% endfor %}
+<br>
+
+<h4>Leave a comment</h4>
+<form method='post'>
+{{ form.csrf_token }}
+  <!-- author -->
+  <fieldset class='form-group'>
+    <h6>{{ form.author.label }}</h6>
+    <div class='row'>
+      <div class='col-md-6'>
+        {{ form.author(class_='form-control') }}
+      </div>
+      <div class='col-md-6'>
+        <span class='alert-danger'>{{ form.author.errors[0] }}</span>
+      </div>
+    </div>
+  </fieldset>
+  <!-- body -->
+  <fieldset class='form-group'>
+    <h6>{{ form.body.label }}</h6>
+    <div class='row'>
+      <div class='col-md-9'>
+        {{ form.body(class_='form-control',rows='3') }}
+      </div>
+      <div class='col-md-3'>
+        <span class='alert-danger'>{{ form.body.errors[0] }}</span>
+      </div>
+    </div>
+  </fieldset>
+  <!-- submit -->
+  <button type='submit' class='btn btn-m default'>Submit</button>
+</form>
 
 {% endblock %}
