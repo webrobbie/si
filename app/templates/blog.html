@@ -19,7 +19,9 @@
       <small class='text-muted'><em>{{ article.tags|join(', ',attribute='name') }}</em></small>
     </div>
     <div class='card-block'>
-      <p class='card-text'>{{ article.body_to_html('blog')|safe|truncate(200,False) }}</p>
+      <a class='to-article' href='{{ url_for("article",article_id=article.id) }}'>
+        <p class='card-text'>{{ article.body_to_html('blog')|safe|truncate(200,False,'(...)') }}</p>
+      </a>
     </div>
   </div>
   <br>

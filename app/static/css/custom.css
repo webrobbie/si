@@ -55,3 +55,6 @@ a.default:active {
 input[type='checkbox'] {
   opacity: 0;
 }
+img {
+  image-orientation: from-image;
+}
