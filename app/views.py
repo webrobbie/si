@@ -3,7 +3,7 @@ from flask_login import login_user,logout_user,login_required,current_user
 # from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 import re,operator
-from . import app,db,admin
+from . import app,db#,admin
 from .forms import *
 from .models import *
 from .utils import *
