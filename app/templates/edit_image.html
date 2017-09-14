@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Edit image{% endblock %}
+{% block main %}
+
+<h2>Edit image</h2>
+<br>
+
+<form method='post' enctype='multipart/form-data'>
+{{ form.csrf_token }}
+  <!-- body -->
+  <h5>{{ form.body.label }}</h5>
+  {{ form.body(class_='body',rows='10') }}
+  <span>{{ form.body.errors[0] }}</span>
+  <p class='formatting'> 
+    <strong onclick='strong()'>b</strong>
+    <em onclick='em()'>i</em>
+    <u onclick='u()'>u</u>
+  </p>
+  <!-- file -->
+  <h5>{{ form.file.label }}</h5>
+  {{ form.file }} 
+  <span>{{ form.file.errors[0] }}</span>
+  <br>
+  <!-- submit -->
+  <br>
+  <button type='submit'>Submit</button>
+</form>
+
+{% endblock %}

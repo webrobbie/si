@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block title %}Search results{% endblock %}
+{% block main %}
+
+<h2>Search results</h2>
+<br>
+
+{% if not posts %}
+<em>No match found.</em>
+{% endif %}
+
+{% for post in posts %}
+  {% if post.album %}
+    <a class='to-post' href='{{ url_for("album",post_id=post.id) }}'>
+  {% else %}
+    <a class='to-post' href='{{ url_for("article",post_id=post.id) }}'>
+  {% endif %}
+    <article>
+      <div class='header'>
+        <h3>{{ post.title }}</h3>
+        <span class='time'>{{ post.time.day }}/{{ post.time.month }}/{{ post.time.year }}</span>
+      </div>
+      <div class='body'>
+        <p>
+          {% if post.album %}
+            <img src='{{ url_for("static",filename="upload/"+post.images.first().filename) }}'>
+          {% endif %}
+          {{ post.body_to_html('albums')|safe|truncate(400,False) }}
+        </p>
+      </div>
+    </article>
+  </a> 
+{% endfor %}
+
+{% endblock %}

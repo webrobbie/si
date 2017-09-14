@@ -1,64 +1,130 @@
-* {
- font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+* {  font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
 }
 body {
-  background: rgb(240,240,245);
+  margin: 0.5em;
+  background: #edf;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  height: minmax(95vh,auto);
+}
+header,main {
+  background: white;
 }
 header {
-  background: linear-gradient(to right,rgb(240,240,245),white 10%, white 50%, rgb(240,240,245));
+  text-align: center;
+  padding: 15px 25px 15px 5px;
 }
-header * {
+header a {
   cursor: default;
 }
-header img {
-  margin: 1em;
-}
 nav {
-  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+}
+nav .link {
+  /* flex: 1; */
+  text-align: center;
+  padding: 8px 4px;
+}
+nav .link:hover {
   background: white;
+}
+nav a {
+  padding-left: 4px;
+  padding-right: 4px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #758;
+}
+nav .current-page {
+  background: white;
+  cursor: default;
 }
 main {
   padding: 1em;
-  background: white;
 }
-h3 {
-  color: rgb(120,120,150);
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
 }
-a.to-article {
-  color: rgb(60,60,90);
+article,.card {
+  border: 1px solid #999;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+article:hover,.to-post:active {
+  background: #FAEAFF;
+}
+.to-post {
   text-decoration: none;
+  color: black;
 }
-a.to-article:hover {
-  color: rgb(100,100,130);
+.header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #999;
+  padding: 1em;
 }
-a.default {
-  color: rgb(120,120,150);
+.body {
+  padding: 1em;
+  overflow: hidden;
 }
-a.default:hover {
-  color: rgb(100,100,130);
+.body img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  float: left;
+  margin: 1px 11px 3px 1px;
 }
-a.default:active {
-  color: white;
+.center-img {
+  max-width: 100%;
+  margin: 0.2em auto -1em auto;
+  display: flex;
 }
-.btn.default {
-  color: white;
-  background: rgb(120,120,150);
-}
-.btn.default:hover {
-  color: rgb(120,120,150);
-  border: 1px solid rgb(120,120,150);
+article.comment:hover {
   background: white;
 }
-.btn.default:active {
-  color: white;
-  background: rgb(240,240,245);
+.album-pics {
+  display: flex;
+  flex-wrap: wrap;
 }
-input[type='checkbox'] {
-  opacity: 0;
+.album-pics img {
+  flex: 1;
+  width: 120px;
+  height: 90px;
+  margin: 0.5em;
+  object-fit: cover;
 }
-label.clickable:hover {
-  cursor: pointer;
+.image-img {
+  max-width: 100%;
+}
+.album-pics img:hover {
+  opacity: 0.8;
 }
 img {
   image-orientation: from-image;
+}
+.green {color: green}
+.orange {color: #d80}
+.red {color: #d00}
+.flash {
+  text-align: center;
+  font-weight: bold;
+}
+.time {
+  color: #999;
+  font-size: 0.9em;
+  margin: 0 0.5em;
+}
+.button {
+  text-decoration: none;
+  font-weight: bold; 
+  font-size: 0.9em;
+  margin: 0 0.5em;
+}
+label.clickable:hover {
+  cursor: pointer;
+  background: #edf;
 }

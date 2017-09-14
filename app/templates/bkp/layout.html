@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>LéaSi - {% block title %}{% endblock %}</title>
+<!-- Favicon -->
+<link rel="icon" href="{{ url_for('static',filename='img/favicon1.png') }}">
+<!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">-->
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static',filename='css/custom.css') }}">
+<script type="text/javascript" src="{{ url_for('static',filename='js/custom.js') }}"></script> 
+</head>
+<body>
+
+<div class='container-fluid'>
+  <br>
+  <div class='row'>
+    <div class='col-md-1'></div>
+
+    <!-- HEADER -->
+    <div class='col-12 col-md-10'>
+      <header class='row'>
+        <div class='col-6 text-center'>
+          <a class='nav-link default' href='{{ url_for("login") }}'><img src='{{ url_for("static",filename="img/si4_135px_dot.jpg") }}'></a>
+        </div>
+      </header>
+      <br>
+      <div class='row'>
+        <!-- MAIN -->
+        <main class='col-12 col-md-8'>
+          {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul class='flashes'>
+              {% for category,message in messages %}
+                <li class='alert-{{ category }}' style='list-style: none'>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          {% block content %}{% endblock %}
+        </main>
+        <div class='col-md-1'></div>
+        <!-- NAV -->
+        <nav class='nav flex-column col-xs-12 col-md-3 text-center'>
+          <a class='nav-link default' href='{{ url_for("articles") }}'>articles</a>
+          <a class='nav-link default' href='{{ url_for("albums") }}'>Albums</a>
+          {% if current_user.is_authenticated %}
+            <a class='nav-link default' href='{{ url_for("new_article") }}'>New article</a>
+            <a class='nav-link default' href='{{ url_for("new_album") }}'>New album</a>
+          {% endif %}
+          <br>
+          <form method='post'>
+          {% for tag in tags %}
+            <label class='clickable' onclick='highlightLabel(this)'>
+              <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+              {{ tag.name }}&nbsp;&nbsp;&nbsp;
+            </label><br>
+          {% endfor %}
+          <br>
+            <input type='text' size='10' name='keyword'>
+            <button type='submit' class='btn btn-sm default'>Search</button>
+          </form>
+        </nav>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+<!-- main -->
+<div class='container-fluid'>
+  <div class='row'>
+    <div class='col-md-1'></div>
+      <div class='col-md-7 col-xs'>
+        <div class='row'>
+    <div class='col-md-1'></div>
+    <br>
+    <!-- nav -->
+          
+        </div>
+      </div>
+  </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static',filename='js/jquery-3.1.1.slim.min.js') }}"></script>
+<!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
+<!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>-->
+<script src="{{ url_for('static',filename='js/tether.min.js') }}"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>-->
+<script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>-->
+</body>
+</html>

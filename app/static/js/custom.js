@@ -1,17 +1,18 @@
-function strong(){  var textarea=document.querySelector('#body');
+function strong(){
+  var textarea=document.querySelector('.body');
   var start=textarea.selectionStart;
   var end=textarea.selectionEnd;
   var alltext=textarea.value;
   var selection=alltext.substring(start,end);
-  if (selection.length==0) b
+  if (selection.length==0) {
     var newtext=alltext.substring(0,start)+'*b*'+alltext.substring(end,alltext.length);
   } else {
     var newtext=alltext.substring(0,start)+'*b*'+selection+'*b*'+alltext.substring(end,alltext.length);
-  }
+  };
   textarea.value=newtext;
-}
+};
 function em(){
-  var textarea=document.querySelector('#body');
+  var textarea=document.querySelector('.body');
   var start=textarea.selectionStart;
   var end=textarea.selectionEnd;
   var alltext=textarea.value;
@@ -20,11 +21,11 @@ function em(){
     var newtext=alltext.substring(0,start)+'*i*'+alltext.substring(end,alltext.length);
   } else {
     var newtext=alltext.substring(0,start)+'*i*'+selection+'*i*'+alltext.substring(end,alltext.length);
-  }
+  };
   textarea.value=newtext;
-}
+};
 function u(){
-  var textarea=document.querySelector('#body');
+  var textarea=document.querySelector('.body');
   var start=textarea.selectionStart;
   var end=textarea.selectionEnd;
   var alltext=textarea.value;
@@ -33,17 +34,16 @@ function u(){
     var newtext=alltext.substring(0,start)+'*u*'+alltext.substring(end,alltext.length);
   } else {
     var newtext=alltext.substring(0,start)+'*u*'+selection+'*u*'+alltext.substring(end,alltext.length);
-  }
+  };
   textarea.value=newtext;
-}
+};
 function autoImg(input){
   /* hide current input, create new one */
-  var row=input.parentNode.parentNode;
-  var newRow=row.cloneNode(true);
-  row.hidden=true;
-  row.parentNode.appendChild(newRow);
+  var newInput=input.cloneNode(true);
+  input.hidden=true;
+  input.after(newInput);
   /* get textarea */
-  var textarea=document.querySelector('#body');
+  var textarea=document.querySelector('.body');
   var start=textarea.selectionStart;
   var end=textarea.selectionEnd;
   var alltext=textarea.value;
@@ -53,12 +53,13 @@ function autoImg(input){
   /* set textarea */
   var newtext=alltext.substring(0,start)+'*img*'+filename+'*img*'+alltext.substring(end,alltext.length);
   textarea.value=newtext;
-}
+};
 function highlightLabel(el){
+  return;
   var checkbox = el.querySelector('input');
   if (checkbox.checked) {
-    el.style.background = 'rgb(220,220,230)';
+    el.style.background = 'red';
   } else {
     el.style.background = 'none';
-  }
-}
+  };
+};

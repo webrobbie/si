@@ -1,25 +1,14 @@
 {% extends 'layout.html' %}
 {% block title %}Login{% endblock %}
-{% block content %}
-
-<h3>Login</h3>
-<br>
-
+{% block main %}
 <form method='post'>
 {{ form.csrf_token }}
-  <!-- password -->
-  <fieldset class='form-group'>
-    <h5>{{ form.password.label }}</h5>
-    <div class='row'>
-      <div class='col-md-6'>
-        {{ form.password(class_='form-control') }}
-      </div>
-      <div class='col-md-6'>
-        <span class='alert-danger'>{{ form.password.errors[0] }}</span>
-      </div>
-    </div>
-  </fieldset>
-  <button type='submit' class='btn btn-sm default'>Submit</button>
+    <strong>{{ form.password.label }}</strong>
+    {{ form.password }}
+    <span class='alert-danger'>{{ form.password.errors[0] }}</span>
+  <button type='submit'>Submit</button>
 </form>
 
 {% endblock %}
+
+{% block nav %}{% endblock %}

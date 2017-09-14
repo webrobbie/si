@@ -1,0 +1,64 @@
+* {
+ font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
+}
+body {
+  background: rgb(240,240,245);
+}
+header {
+  background: linear-gradient(to right,rgb(240,240,245),white 10%, white 50%, rgb(240,240,245));
+}
+header * {
+  cursor: default;
+}
+header img {
+  margin: 1em;
+}
+nav {
+  padding: 1em;
+  background: white;
+}
+main {
+  padding: 1em;
+  background: white;
+}
+h3 {
+  color: rgb(120,120,150);
+}
+a.to-article {
+  color: rgb(60,60,90);
+  text-decoration: none;
+}
+a.to-article:hover {
+  color: rgb(100,100,130);
+}
+a.default {
+  color: rgb(120,120,150);
+}
+a.default:hover {
+  color: rgb(100,100,130);
+}
+a.default:active {
+  color: white;
+}
+.btn.default {
+  color: white;
+  background: rgb(120,120,150);
+}
+.btn.default:hover {
+  color: rgb(120,120,150);
+  border: 1px solid rgb(120,120,150);
+  background: white;
+}
+.btn.default:active {
+  color: white;
+  background: rgb(240,240,245);
+}
+input[type='checkbox'] {
+  opacity: 0;
+}
+label.clickable:hover {
+  cursor: pointer;
+}
+img {
+  image-orientation: from-image;
+}

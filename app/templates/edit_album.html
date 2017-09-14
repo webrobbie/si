@@ -1,8 +1,8 @@
 {% extends 'layout.html' %}
-{% block title %}Edit article{% endblock %}
+{% block title %}Edit album{% endblock %}
 {% block main %}
 
-<h2>Edit article</h2>
+<h2>Edit album</h2>
 <br>
 
 <form method='post' enctype='multipart/form-data'>
@@ -24,7 +24,7 @@
     <br><br>
   <!-- file -->
     <h4>{{ form.file.label }}</h4>
-    {{ form.file(onchange='autoImg(this)') }} 
+    {{ form.file(multiple='') }} 
     <span class='red'>{{ form.file.errors[0] }}</span>
     <br><br>
   <!-- tags -->

@@ -1,77 +1,49 @@
 {% extends 'layout.html' %}
 {% block title %}New article{% endblock %}
-{% block content %}
+{% block main %}
 
-<h3>New article</h3>
+<h2>New article</h2>
 <br>
 
 <form method='post' enctype='multipart/form-data'>
 {{ form.csrf_token }}
   <!-- title -->
-  <fieldset class='form-group'>
-    <h5>{{ form.title.label }}</h5>
-    <div class='row'>
-      <div class='col-md-6'>
-        {{ form.title(class_='form-control') }}
-      </div>
-      <div class='col-md-6'>
-        <span class='alert-danger'>{{ form.title.errors[0] }}</span>
-      </div>
-    </div>
-  </fieldset>
+  <h4>{{ form.title.label }}</h4>
+  <span class='red'>{{ form.title.errors[0] }}</span>
+  {{ form.title }}
+  <br><br>
   <!-- body -->
-  <fieldset class='form-group'>
-    <h5>{{ form.body.label }}</h5>
-    <div class='row'>
-      <div class='col-md-9'>
-        {{ form.body(class_='form-control',rows='5') }}
-      </div>
-      <div class='col-md-3'>
-        <span class='alert-danger'>{{ form.body.errors[0] }}</span>
-      </div>
-    </div>
-     <div class='row'> 
-       <div class='col-md-9'> 
-         <span class='btn btn-sm default strong-format-button' onclick='strong()'><strong>b</strong></span> 
-         <span class='btn btn-sm default em-format-button' onclick='em()'><em>i</em></span> 
-         <span class='btn btn-sm default u-format-button' onclick='u()'><u>u</u></span> 
-       </div> 
-     </div> 
-  </fieldset>
+  <h4>{{ form.body.label }}</h4>
+  <span class='red'>{{ form.body.errors[0] }}</span>
+  {{ form.body(class_='body',rows='10',cols='40') }}
+  <br>
+  <!-- formatting / remove span ?-->
+  <strong onclick='strong()'>b</strong>
+  <em onclick='em()'>i</em>
+  <u onclick='u()'>u</u>
+  <br><br>
   <!-- file -->
-  <fieldset class='form-group'>
-    <h5>{{ form.file.label }}</h5>
-    <div class='row'>
-      <div class='col-xs-6 col-md-4'>
-         {{ form.file(class_='form-control',onchange='autoImg(this)') }} 
-      </div>
-      <div class='col-xs-6 col-md-4'>
-        <span class='alert-danger'>{{ form.file.errors[0] }}</span>
-      </div>
-    </div>
-  </fieldset>
+  <h4>{{ form.file.label }}</h4>
+  {{ form.file(onchange='autoImg(this)') }} 
+  <span class='red'>{{ form.file.errors[0] }}</span>
+  <br><br>
   <!-- tags -->
-  <fieldset class='form-group'>
-    <h5>Tags</h5>
-      {% for tag in tags %}
-        <label class='clickable'>
-          <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
-          {{ tag.name }}
-        </label>
-      {% endfor %}
-  </fieldset>
+  <h4>Tags</h4>
+  {% for tag in tags %}
+    <label class='clickable'>
+      <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+      {{ tag.name }}
+    </label>
+  {% endfor %}
+  <br><br>
   <!-- new tag -->
-  <fieldset class='form-group'>
-    <h5>New tags</h5>
-    <div class='row'>
-      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
-      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
-      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
-      <div class='col-3'><input type='text' name='new_tags' class='form-control'></div>
-    </div>
-  </fieldset>
+  <h4>New tags</h4>
+  <input type='text' name='new_tags' class='form-control'>
+  <input type='text' name='new_tags' class='form-control'>
+  <input type='text' name='new_tags' class='form-control'>
+  <br><br>
   <!-- submit -->
-  <button type='submit' class='btn btn-m default'>Submit</button>
+  <button type='submit'>Submit</button>
 </form>
 
 {% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block title %}Article{% endblock %}
+{% block main %}
+
+<form method='post'>
+  <h4>Tags</h4>
+  {% for tag in tags %}
+    <label class='clickable' onclick='highlightLabel(this)'>
+      <input type='checkbox' name='tag_id' value='{{ tag.id }}'>
+      <span>{{ tag.name }}</span>
+    </label>
+  {% endfor %}
+  <br>
+  <h4>Keyword</h4>
+  <input type='text' size='10' name='keyword'>
+  <!-- submit -->
+  <button type='submit'>Search</button>
+</form>
+
+{% endblock %}

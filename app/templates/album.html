@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}Article{% endblock %}
+{% block title %}Album{% endblock %}
 {% block main %}
 
 <section>
@@ -7,12 +7,20 @@
     <h2>{{ post.title }}</h2>
     <div>
       <span class='time'>{{ post.time.day }}/{{ post.time.month }}/{{ post.time.year }}</span>
-      <a class='button orange' href='{{ url_for("edit_article",post_id=post.id) }}'>edit</a>
-      <a class='button red' href='{{ url_for("delete_article",post_id=post.id) }}'>delete</a>
+      <a class='button orange' href='{{ url_for("edit_album",post_id=post.id) }}'>edit</a>
+      <a class='button red' href='{{ url_for("delete_album",post_id=post.id) }}'>delete</a>
     </div>
   </div>
   <br>
   <p>{{ post.body_to_html('article')|safe }}</p>
+</section>
+
+<section class='album-pics'>
+{% for image in post.images|sort(attribute='rank') %}
+  <a href='{{ url_for("image",rank=image.rank) }}'>
+    <img src='{{ url_for("static",filename="upload/"+image.filename) }}'>
+  </a>
+{% endfor %}
 </section>
 <br><hr><br>
 
@@ -42,11 +50,11 @@
 {{ form.csrf_token }}
   <!-- author -->
   <strong>{{ form.author.label }}</strong><br>
-  {{ form.author }}
+  {{ form.author(class_='form-control') }}
   <p class='error'>{{ form.author.errors[0] }}</p>
   <!-- body -->
   <strong>{{ form.body.label }}</strong><br>
-  {{ form.body(rows='3') }}
+  {{ form.body(class_='form-control',rows='3') }}
   <p class='error'>{{ form.body.errors[0] }}</p>
   <!-- submit -->
   <button type='submit'>Submit</button>

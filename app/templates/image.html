@@ -1,24 +1,35 @@
 {% extends 'layout.html' %}
-{% block title %}Article{% endblock %}
+{% block title %}Image{% endblock %}
 {% block main %}
 
-<section>
-  <div class='header'>
-    <h2>{{ post.title }}</h2>
-    <div>
-      <span class='time'>{{ post.time.day }}/{{ post.time.month }}/{{ post.time.year }}</span>
-      <a class='button orange' href='{{ url_for("edit_article",post_id=post.id) }}'>edit</a>
-      <a class='button red' href='{{ url_for("delete_article",post_id=post.id) }}'>delete</a>
-    </div>
+<div class='header'>
+<!-- previous / next image -->
+  <div class='previous-next'>
+    {% if Image.query.get(image.rank-1) in image.post.images %}
+      <a href='{{ url_for("image",rank=image.rank-1) }}'><button>Previous</button></a>
+    {% endif %}
+    {% if Image.query.get(image.rank+1) in image.post.images %}
+      <a href='{{ url_for("image",rank=image.rank+1) }}'><button>Next</button></a>
+    {% endif %}
   </div>
-  <br>
-  <p>{{ post.body_to_html('article')|safe }}</p>
-</section>
+<!-- buttons -->
+  <div>
+    <a class='button orange' href='{{ url_for("edit_image",rank=image.rank) }}'>edit</a>
+    <a class='button red' href='{{ url_for("delete_image",rank=image.rank) }}'>delete</a>
+  </div>
+</div>
+
+{% if image.body %}
+  <p>{{ image.body_to_html()|safe }}</p>
+{% endif %}
+<a href='{{ url_for("static",filename="upload/"+image.filename) }}'>
+  <img class='image-img' src='{{ url_for("static",filename="upload/"+image.filename) }}'>
+</a>
 <br><hr><br>
 
 <h2>Comments</h2>
 <br>
-{% for comment in post.comments %}
+{% for comment in image.comments %}
   <article class='card comment'>
     <div class='header'>
       <h4>{{ comment.author }}</h4>
