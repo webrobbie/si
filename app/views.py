@@ -10,7 +10,7 @@ from .utils import *
 #ARTICLES{{{
 @app.route('/',methods=['GET','POST'])
 def articles():
-    posts=Post.query.filter(Post.album==False).order_by(Post.time).all()
+    posts=Post.query.filter(Post.album==False).order_by(Post.time.desc()).all()
     return render_template('articles.html',posts=posts)
 #}}}
 #ARTICLE{{{
@@ -19,6 +19,9 @@ def article(post_id):
     form=CommentForm()
     post=Post.query.get(post_id)
     if form.validate_on_submit():
+        if form.author.data in ('si','Si') and not current_user.is_authenticated:
+            flash('Enter another name.','red')
+            return redirect(url_for('article',post_id=post_id))
         c=Comment(
             author=form.author.data,
             body=form.body.data,
@@ -103,7 +106,7 @@ def delete_article(post_id):
 #ALBUMS{{{
 @app.route('/albums')
 def albums():
-    posts=Post.query.filter(Post.album==True).order_by(Post.time).all()
+    posts=Post.query.filter(Post.album==True).order_by(Post.time.desc()).all()
     return render_template('albums.html',posts=posts)
 #}}}
 #ALBUM{{{
@@ -112,6 +115,9 @@ def album(post_id):
     form=CommentForm()
     post=Post.query.get(post_id)
     if form.validate_on_submit():
+        if form.author.data in ('si','Si') and not current_user.is_authenticated:
+            flash('Enter another name.','red')
+            return redirect(url_for('album',post_id=post_id))
         c=Comment(
             author=form.author.data,
             body=form.body.data,
@@ -210,6 +216,9 @@ def image(rank):
     image=Image.query.filter_by(rank=rank).first()
     form=CommentForm()
     if form.validate_on_submit():
+        if form.author.data in ('si','Si') and not current_user.is_authenticated:
+            flash('Enter another name.','red')
+            return redirect(url_for('image',rank=rank))
         c=Comment(
             author=form.author.data,
             body=form.body.data,
@@ -263,6 +272,30 @@ def delete_image(rank):
     # flash('Album deleted.','green')
     # return redirect(url_for('albums'))
 #}}}
+#REPLY COMMENT{{{
+@app.route('/reply_comment/<comment_id>',methods=['GET','POST'])
+def reply_comment(comment_id):
+    parent=Comment.query.get(comment_id)
+    form=CommentForm()
+    if form.validate_on_submit():
+        c=Comment(
+            author=form.author.data,
+            body=form.body.data,
+            # post=post,
+            time=datetime.now(),
+            parent=parent)
+        db.session.add(c)
+        # post.comments.append(c)
+        db.session.commit()
+        flash('Comment added.','green')
+        if parent.image:
+            return redirect(url_for('image',rank=parent.image.rank))
+        elif parent.post.album:
+            return redirect(url_for('album',post_id=parent.post.id))
+        else:
+            return redirect(url_for('article',post_id=parent.post.id))
+    return render_template('reply_comment.html',form=form,parent=parent)
+# }}}
 #DELETE COMMENT{{{
 @app.route('/delete_comment/<comment_id>')
 #@login_required
@@ -277,7 +310,7 @@ def delete_comment(comment_id):
     db.session.commit()
     flash('Comment deleted.','green')
     if image:
-        return redirect(url_for('image',image_id=image.id))
+        return redirect(url_for('image',rank=image.rank))
     elif post:
         if post.album:
             return redirect(url_for('album',post_id=post.id))

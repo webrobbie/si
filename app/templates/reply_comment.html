@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+{% block title %}Reply comment{% endblock %}
+{% block main %}
+
+<article class='card comment'>
+  <div class='header'>
+    <h4>{{ parent.author }}</h4>
+    <div>
+      <span class='time'>{{ parent.time.day }}/{{ parent.time.month }}/{{ parent.time.year }}</span>
+    </div>
+  </div>
+  <div class='body'>
+    <p>{{ parent.body }}</p>
+  </div>
+</article>
+
+{% for child in parent.children %}
+  <article class='card comment reply'>
+    <div class='header'>
+      <h4>{{ child.author }}</h4>
+      <div>
+        <span class='time'>{{ child.time.day }}/{{ child.time.month }}/{{ child.time.year }}</span>
+      </div>
+    </div>
+    <div class='body'>
+      <p>{{ child.body }}</p>
+    </div>
+  </article>
+{% endfor %}
+<br><hr><br>
+
+<h2>Reply to comment</h2>
+<br>
+<form method='post'>
+{{ form.csrf_token }}
+  <!-- author -->
+  <strong>{{ form.author.label }}</strong><br>
+  {{ form.author }}
+  <p class='error'>{{ form.author.errors[0] }}</p>
+  <!-- body -->
+  <strong>{{ form.body.label }}</strong><br>
+  {{ form.body(rows='3') }}
+  <p class='error'>{{ form.body.errors[0] }}</p>
+  <!-- submit -->
+  <button type='submit'>Submit</button>
+</form>
+
+{% endblock %}

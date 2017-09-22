@@ -12,16 +12,17 @@
     </div>
   </div>
   <br>
+  <section class='album-pics'>
+  {% for image in post.images|sort(attribute='rank') %}
+    <a href='{{ url_for("image",rank=image.rank) }}'>
+      <img src='{{ url_for("static",filename="upload/"+image.filename) }}'>
+    </a>
+  {% endfor %}
+  </section>
   <p>{{ post.body_to_html('article')|safe }}</p>
+  <em>Tags: {{ post.tags|join(', ',attribute='name') }}</em>
 </section>
 
-<section class='album-pics'>
-{% for image in post.images|sort(attribute='rank') %}
-  <a href='{{ url_for("image",rank=image.rank) }}'>
-    <img src='{{ url_for("static",filename="upload/"+image.filename) }}'>
-  </a>
-{% endfor %}
-</section>
 <br><hr><br>
 
 <h2>Comments</h2>
@@ -29,9 +30,10 @@
 {% for comment in post.comments %}
   <article class='card comment'>
     <div class='header'>
-      <h4>{{ comment.author }}</h4>
+      <h4 {% if current_user.is_authenticated %}style='color: #758'{% endif %}>{{ comment.author }}</h4>
       <div>
         <span class='time'>{{ comment.time.day }}/{{ comment.time.month }}/{{ comment.time.year }}</span>
+        <a class='button green' href='{{ url_for("reply_comment",comment_id=comment.id) }}'>reply</a>
         {% if current_user.is_authenticated %}
           <a class='button red' href='{{ url_for("delete_comment",comment_id=comment.id) }}'>delete</a>
         {% endif %} 
@@ -41,6 +43,23 @@
       <p>{{ comment.body }}</p>
     </div>
   </article>
+  <!-- replies -->
+  {% for reply in comment.children %}
+    <article class='card comment reply'>
+      <div class='header'>
+        <h4>{{ reply.author }}</h4>
+        <div>
+          <span class='time'>{{ reply.time.day }}/{{ reply.time.month }}/{{ reply.time.year }}</span>
+          {% if current_user.is_authenticated %}
+            <a class='button red' href='{{ url_for("delete_comment",comment_id=reply.id) }}'>delete</a>
+          {% endif %} 
+        </div>
+      </div>
+      <div class='body'>
+        <p>{{ reply.body }}</p>
+      </div>
+    </article>
+  {% endfor %}
 {% endfor %}
 <br><hr><br>
 

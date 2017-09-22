@@ -25,6 +25,8 @@ class Comment(db.Model):
     body=db.Column(db.String(1024))
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     image_id=db.Column(db.Integer,db.ForeignKey('image.id'))
+    parent_id=db.Column(db.Integer,db.ForeignKey('comment.id'))
+    children=db.relationship('Comment',backref=db.backref('parent',remote_side=[id]),lazy='dynamic')
 
 class Post(db.Model):
     id=db.Column(db.Integer,primary_key=True)
