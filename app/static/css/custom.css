@@ -2,7 +2,7 @@
 }
 body {
   margin: 0.5em;
-  background: #FFF8FC;
+  background: #FDFAFA;
 }
 .container {
   max-width: 800px;
@@ -129,7 +129,7 @@ img {
 }
 label.clickable:hover {
   cursor: pointer;
-  background: #F5E5FF;
+  background: #FDFAFA;
 }
 .tags {
   font-style: italic;
