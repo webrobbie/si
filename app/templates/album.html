@@ -20,7 +20,7 @@
   {% endfor %}
   </section>
   <p>{{ post.body_to_html('article')|safe }}</p>
-  <em>Tags: {{ post.tags|join(', ',attribute='name') }}</em>
+  <p class='tags'>{{ post.tags|join(', ',attribute='name') }}</p>
 </section>
 
 <br><hr><br>
