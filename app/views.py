@@ -43,22 +43,26 @@ def new_article():
         for f in request.files.getlist('file'):
             if f.filename and f.filename in form.body.data:#always f.filename?
                 f.save(app.config['UPLOAD_TO']+f.filename)
-        p=Post(
+        post=Post(
             title=form.title.data,
             body=form.body.data,
             time=datetime.now(),
             album=False)
-        db.session.add(p)
+        db.session.add(post)
         for tag_id in request.form.getlist('tag_id'):
-            p.tags.append(Tag.query.get(tag_id))
+            post.tags.append(Tag.query.get(tag_id))
         for new_tag in request.form.getlist('new_tags'):
             if new_tag:
-                t=Tag(name=new_tag)
-                db.session.add(t)
-                p.tags.append(t)
+                existing_tag=Tag.query.filter_by(name=new_tag).first()
+                if not existing_tag:
+                    t=Tag(name=new_tag)
+                    db.session.add(t)
+                    post.tags.append(t)
+                else:
+                    post.tags.append(existing_tag)
         db.session.commit()
         flash('Article created.','green')
-        return redirect(url_for('article',post_id=p.id))
+        return redirect(url_for('article',post_id=post.id))
     tags=Tag.query.all()
     return render_template('new_article.html',form=form,tags=tags)
 #}}}
@@ -77,9 +81,13 @@ def edit_article(post_id):
         post.tags=[Tag.query.get(tag_id) for tag_id in request.form.getlist('tag_id')]
         for new_tag in request.form.getlist('new_tags'):
             if new_tag:
-                t=Tag(name=new_tag)
-                db.session.add(t)
-                post.tags.append(t)
+                existing_tag=Tag.query.filter_by(name=new_tag).first()
+                if not existing_tag:
+                    t=Tag(name=new_tag)
+                    db.session.add(t)
+                    post.tags.append(t)
+                else:
+                    post.tags.append(existing_tag)
         db.session.commit()
         flash('Changes have been saved.','green')
         return redirect(url_for('article',post_id=post_id))
@@ -96,8 +104,8 @@ def edit_article(post_id):
 @app.route('/delete_article/<post_id>')
 #@login_required
 def delete_article(post_id):
-    p=Post.query.get(post_id)
-    db.session.delete(p)
+    post=Post.query.get(post_id)
+    db.session.delete(post)
     db.session.commit()
     flash('Article deleted.','green')
     return redirect(url_for('articles'))
@@ -136,30 +144,34 @@ def album(post_id):
 def new_album():
     form=AlbumForm()
     if form.validate_on_submit():
-        p=Post(
+        post=Post(
             title=form.title.data,
             body=form.body.data,
             time=datetime.now(),
             album=True)
-        db.session.add(p)
+        db.session.add(post)
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
             f.save(app.config['UPLOAD_TO']+f.filename)
-            image=Image(filename=f.filename,post=p)
+            image=Image(filename=f.filename,post=post)
             db.session.add(image)
-        images=p.images.all()
+        images=post.images.all()
         for image,n in zip(images,range(len(images))):
             image.rank=n
         for tag_id in request.form.getlist('tag_id'):
-            p.tags.append(Tag.query.get(tag_id))
+            post.tags.append(Tag.query.get(tag_id))
         for new_tag in request.form.getlist('new_tags'):
             if new_tag:
-                t=Tag(name=new_tag)
-                db.session.add(t)
-                p.tags.append(t)
+                existing_tag=Tag.query.filter_by(name=new_tag).first()
+                if not existing_tag:
+                    t=Tag(name=new_tag)
+                    db.session.add(t)
+                    post.tags.append(t)
+                else:
+                    post.tags.append(existing_tag)
         db.session.commit()
         flash('Album created.','green')
-        return redirect(url_for('album',post_id=p.id))
+        return redirect(url_for('album',post_id=post.id))
     tags=Tag.query.all()
     return render_template('new_album.html',form=form,tags=tags)
 #}}}
@@ -173,9 +185,9 @@ def edit_album(post_id):
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
             f.save(app.config['UPLOAD_TO']+f.filename)
-            image=Image(filename=f.filename,post=p)
+            image=Image(filename=f.filename,post=post)
             db.session.add(image)
-        images=p.images.all()
+        images=post.images.all()
         for image,n in zip(images,range(len(images))):
             image.rank=n
         post.title=form.title.data
@@ -183,9 +195,13 @@ def edit_album(post_id):
         post.tags=[Tag.query.get(tag_id) for tag_id in request.form.getlist('tag_id')]
         for new_tag in request.form.getlist('new_tags'):
             if new_tag:
-                t=Tag(name=new_tag)
-                db.session.add(t)
-                article.tags.append(t)
+                existing_tag=Tag.query.filter_by(name=new_tag).first()
+                if not existing_tag:
+                    t=Tag(name=new_tag)
+                    db.session.add(t)
+                    post.tags.append(t)
+                else:
+                    post.tags.append(existing_tag)
         db.session.commit()
         flash('Changes have been saved.','green')
         return redirect(url_for('album',post_id=post_id))
