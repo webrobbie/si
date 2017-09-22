@@ -36,7 +36,7 @@ def article(post_id):
 #}}}
 #NEW ARTICLE{{{
 @app.route('/new_article/',methods=['GET','POST'])
-#@login_required
+@login_required
 def new_article():
     form=ArticleForm()
     if form.validate_on_submit():
@@ -68,7 +68,7 @@ def new_article():
 #}}}
 #EDIT ARTICLE{{{
 @app.route('/edit_article/<post_id>',methods=['GET','POST'])
-#@login_required
+@login_required
 def edit_article(post_id):
     form=ArticleForm()
     post=Post.query.get(post_id)
@@ -102,7 +102,7 @@ def edit_article(post_id):
 #}}}
 #DELETE ARTICLE{{{
 @app.route('/delete_article/<post_id>')
-#@login_required
+@login_required
 def delete_article(post_id):
     post=Post.query.get(post_id)
     db.session.delete(post)
@@ -140,7 +140,7 @@ def album(post_id):
 #}}}
 #NEW ALBUM{{{
 @app.route('/new_album',methods=['GET','POST'])
-#@login_required
+@login_required
 def new_album():
     form=AlbumForm()
     if form.validate_on_submit():
@@ -177,7 +177,7 @@ def new_album():
 #}}}
 #EDIT ALBUM{{{
 @app.route('/edit_album/<post_id>',methods=['GET','POST'])
-#@login_required
+@login_required
 def edit_album(post_id):
     form=AlbumForm()
     post=Post.query.get(post_id)
@@ -216,7 +216,7 @@ def edit_album(post_id):
 #}}}
 #DELETE ALBUM{{{
 @app.route('/delete_album/<post_id>')
-#@login_required
+@login_required
 def delete_album(post_id):
     p=Post.query.get(post_id)
     db.session.delete(p)
@@ -250,7 +250,7 @@ def image(rank):
 #}}}
 #EDIT IMAGE{{{
 @app.route('/edit_image/<rank>',methods=['GET','POST'])
-#@login_required
+@login_required
 def edit_image(rank):
     form=ImageForm()
     image=Image.query.filter_by(rank=rank).first()
@@ -272,7 +272,7 @@ def edit_image(rank):
 #}}}
 #DELETE IMAGE{{{
 @app.route('/delete_image/<rank>')
-#@login_required
+@login_required
 def delete_image(rank):
     image=Image.query.filter_by(rank=rank).first()
     album=image.post
@@ -314,7 +314,7 @@ def reply_comment(comment_id):
 # }}}
 #DELETE COMMENT{{{
 @app.route('/delete_comment/<comment_id>')
-#@login_required
+@login_required
 def delete_comment(comment_id):
     c=Comment.query.get(comment_id)
     post=image=None
@@ -382,7 +382,7 @@ def login():
 #}}}
 #LOGOUT{{{
 @app.route('/logout')
-#@login_required
+@login_required
 def logout():
     logout_user()
     flash('You were just logged out.','green')
