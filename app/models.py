@@ -36,7 +36,6 @@ class Post(db.Model):
     comments=db.relationship('Comment',backref='post',lazy='dynamic')
     album=db.Column(db.Boolean)
     images=db.relationship('Image',backref='post',lazy='dynamic')
-    icon=db.relationship('Image',backref='icon_of',uselist=False)
     tags=db.relationship('Tag',
         secondary=post_tag_table,
         backref=db.backref('posts'),
@@ -74,7 +73,6 @@ class Image(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     filename=db.Column(db.String(48))
     body=db.Column(db.String(1024))
-    position=db.Column(db.Integer)
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     rank=db.Column(db.Integer)
     comments=db.relationship('Comment',backref='image',lazy='dynamic')

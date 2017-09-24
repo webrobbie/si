@@ -231,6 +231,8 @@ def edit_album(post_id):
 @login_required
 def delete_album(post_id):
     p=Post.query.get(post_id)
+    for img in p.images.all():
+        db.session.delete(img)
     db.session.delete(p)
     db.session.commit()
     flash('Album deleted.','green')
