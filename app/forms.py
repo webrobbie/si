@@ -13,8 +13,7 @@ class AlbumForm(Form):
     title=StringField('Title',validators=[
         DataRequired(message='Input required')])
     body=TextAreaField('Body',validators=[])
-    file=FileField('File',validators=[
-        DataRequired(message='Input required')])
+    file=FileField('File',validators=[])
 
 class LoginForm(Form):
     password=PasswordField('Password',validators=[
