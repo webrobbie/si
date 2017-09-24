@@ -2,6 +2,6 @@ config.py
 run.py
 __pycache__
 *.pyc
-si.db
-upload/*
+app/si.db
+app/upload/*
 notes
