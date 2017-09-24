@@ -39,7 +39,12 @@ function u(){
 };
 function autoImg(input){
   /* hide current input, create new one */
-  var newInput=input.cloneNode(true);
+  /* var newInput=input.cloneNode(true); */
+  var newInput=document.createElement('input');
+  newInput.setAttribute('id','file');
+  newInput.setAttribute('name','file');
+  newInput.setAttribute('type','file');
+  newInput.setAttribute('onchange','autoImg(this)');
   input.hidden=true;
   input.after(newInput);
   /* get textarea */

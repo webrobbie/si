@@ -165,7 +165,7 @@ def new_album():
             image=Image(filename=f.filename,post=post)
             db.session.add(image)
         images=post.images.all()
-        for image,n in zip(images,range(1,len(images)+1)):
+        for image,n in zip(images,range(len(images))):
             image.rank=n
         for tag_id in request.form.getlist('tag_id'):
             post.tags.append(Tag.query.get(tag_id))
@@ -200,7 +200,7 @@ def edit_album(post_id):
             image=Image(filename=f.filename,post=post)
             db.session.add(image)
         images=post.images.all()
-        for image,n in zip(images,range(1,len(images)+1)):
+        for image,n in zip(images,range(len(images))):
             image.rank=n
         post.title=form.title.data
         post.body=form.body.data
@@ -238,15 +238,15 @@ def delete_album(post_id):
 #}}}
 
 #IMAGE{{{
-@app.route('/image/<img_id>',methods=['GET','POST'])
+@app.route('/image/<rank>',methods=['GET','POST'])
 #@login_required
-def image(img_id):
-    image=Image.query.get(img_id)
+def image(rank):
+    image=Image.query.filter_by(rank=rank).first()
     form=CommentForm()
     if form.validate_on_submit():
         if form.author.data in ('si','Si') and not current_user.is_authenticated:
             flash('Enter another name.','red')
-            return redirect(url_for('image',img_id=img_id))
+            return redirect(url_for('image',rank=rank))
         c=Comment(
             author=form.author.data,
             body=form.body.data,
@@ -254,18 +254,18 @@ def image(img_id):
             time=datetime.now())
         db.session.add(c)
         db.session.commit()
-        return redirect(url_for('image',img_id=img_id))
+        return redirect(url_for('image',rank=rank))
     return render_template('image.html',
         image=image,
         Image=Image,
         form=form)
 #}}}
 #EDIT IMAGE{{{
-@app.route('/edit_image/<img_id>',methods=['GET','POST'])
+@app.route('/edit_image/<rank>',methods=['GET','POST'])
 @login_required
-def edit_image(img_id):
+def edit_image(rank):
     form=ImageForm()
-    image=Image.query.get(img_id)
+    image=Image.query.filter_by(rank=rank).first()
     if form.validate_on_submit():
         for f in request.files.getlist('file'):
             if f.filename and f.filename not in os.listdir(app.config['UPLOAD_TO']):
@@ -275,24 +275,24 @@ def edit_image(img_id):
                 flash(f.filename+' not saved (filename already existing).','red')
         image.body=form.body.data
         images=image.post.images.all()
-        for image,n in zip(images,range(1,len(images)+1)):
+        for image,n in zip(images,range(len(images))):
             image.rank=n
         db.session.commit()
         flash('Changes have been saved.','green')
-        return redirect(url_for('image',img_id=img_id))
+        return redirect(url_for('image',rank=rank))
     return render_template('edit_image.html',
         image=image,
         form=form)
 #}}}
 #DELETE IMAGE{{{
-@app.route('/delete_image/<img_id>')
+@app.route('/delete_image/<rank>')
 @login_required
-def delete_image(img_id):
-    image=Image.query.get(img_id)
+def delete_image(rank):
+    image=Image.query.filter_by(rank=rank).first()
     album=image.post
     db.session.delete(image)
     images=image.post.images.all()
-    for image,n in zip(images,range(1,len(images)+1)):
+    for image,n in zip(images,range(len(images))):
         image.rank=n
     db.session.commit()
     return redirect(url_for('album',post_id=album.id))
@@ -319,7 +319,7 @@ def reply_comment(comment_id):
         db.session.commit()
         flash('Comment added.','green')
         if parent.image:
-            return redirect(url_for('image',img_id=parent.image.id))
+            return redirect(url_for('image',rank=parent.image.rank))
         elif parent.post.album:
             return redirect(url_for('album',post_id=parent.post.id))
         else:
@@ -340,7 +340,7 @@ def delete_comment(comment_id):
     db.session.commit()
     flash('Comment deleted.','green')
     if image:
-        return redirect(url_for('image',img_id=image.id))
+        return redirect(url_for('image',rank=image.rank))
     elif post:
         if post.album:
             return redirect(url_for('album',post_id=post.id))

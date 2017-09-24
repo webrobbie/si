@@ -12,8 +12,7 @@ class ArticleForm(Form):
 class AlbumForm(Form):
     title=StringField('Title',validators=[
         DataRequired(message='Input required')])
-    body=TextAreaField('Body',validators=[
-        DataRequired(message='Input required')])
+    body=TextAreaField('Body',validators=[])
     file=FileField('File',validators=[
         DataRequired(message='Input required')])
 

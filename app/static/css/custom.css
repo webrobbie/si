@@ -2,7 +2,7 @@
 }
 body {
   margin: 0.5em;
-  background: #FDFAFA;
+  background: #FDF7FA;
 }
 .container {
   max-width: 800px;
@@ -112,6 +112,7 @@ img {
 .green {color: green}
 .orange {color: #d80}
 .red {color: #d00}
+.violet {color: #758}
 .flash {
   text-align: center;
   font-weight: bold;
@@ -129,7 +130,7 @@ img {
 }
 label.clickable:hover {
   cursor: pointer;
-  background: #FDFAFA;
+  background: #FDF7FA;
 }
 .tags {
   font-style: italic;
