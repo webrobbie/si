@@ -36,7 +36,7 @@ def article(post_id):
 #}}}
 #NEW ARTICLE{{{
 @app.route('/new_article/',methods=['GET','POST'])
-# @login_required
+@login_required
 def new_article():
     form=ArticleForm()
     if form.validate_on_submit():
@@ -241,7 +241,6 @@ def delete_album(post_id):
 
 #IMAGE{{{
 @app.route('/image/<img_id>',methods=['GET','POST'])
-#@login_required
 def image(img_id):
     image=Image.query.get(img_id)
     form=CommentForm()
