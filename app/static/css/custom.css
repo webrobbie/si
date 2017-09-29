@@ -42,9 +42,14 @@ nav a {
 nav .current-page {
   background: white;
   cursor: default;
+  outline: 1px solid white;
 }
 main {
   padding: 1em;
+}
+.light-border {
+  border: 1px solid #FAEAFF;
+  border-radius: 4px;
 }
 h1,h2,h3,h4,h5,h6 {
   margin: 0;
@@ -52,7 +57,8 @@ h1,h2,h3,h4,h5,h6 {
 article,.card {
   border: 1px solid #999;
   border-radius: 4px;
-  margin-bottom: 1em;
+  margin: 1em 0;
+  /* margin-bottom: 1em; */
 }
 article:hover,.to-post:active {
   background: #FAEAFF;

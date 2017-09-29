@@ -11,7 +11,9 @@
       </div>
       <div class='body'>
         <p>
+	  {% if post.images.first() %}
           <img src='{{ url_for("static",filename="upload/"+post.images.first().filename) }}'>
+	  {% endif %}
           {{ post.body_to_html('albums')|safe|truncate(400,False) }}
         </p>
       </div>
