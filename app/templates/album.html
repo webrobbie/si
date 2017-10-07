@@ -7,8 +7,10 @@
     <h2>{{ post.title }}</h2>
     <div>
       <span class='time'>{{ post.time.day }}/{{ post.time.month }}/{{ post.time.year }}</span>
-      <a class='button orange' href='{{ url_for("edit_album",post_id=post.id) }}'>edit</a>
-      <a class='button red' href='{{ url_for("delete_album",post_id=post.id) }}'>delete</a>
+      {% if current_user.is_authenticated %}
+        <a class='button orange' href='{{ url_for("edit_album",post_id=post.id) }}'>edit</a>
+        <a class='button red' href='{{ url_for("delete_album",post_id=post.id) }}'>delete</a>
+      {% endif %}
     </div>
   </div>
   <br>
@@ -69,11 +71,15 @@
 {{ form.csrf_token }}
   <!-- author -->
   <strong>{{ form.author.label }}</strong><br>
-  {{ form.author(class_='form-control') }}
+  {% if current_user.is_authenticated %}
+  {{ form.author(value='Si') }}
+  {% else %}
+  {{ form.author }}
+  {% endif %}
   <p class='error'>{{ form.author.errors[0] }}</p>
   <!-- body -->
   <strong>{{ form.body.label }}</strong><br>
-  {{ form.body(class_='form-control',rows='3') }}
+  {{ form.body(rows='3') }}
   <p class='error'>{{ form.body.errors[0] }}</p>
   <!-- submit -->
   <button type='submit'>Submit</button>
