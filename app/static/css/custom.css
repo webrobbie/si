@@ -18,6 +18,10 @@ header {
 }
 header a {
   cursor: default;
+  font-family: 'GreatVibesRegular',sans-serif;
+  font-size: 4em;
+  text-decoration: none;
+  color: black;
 }
 nav {
   display: flex;
