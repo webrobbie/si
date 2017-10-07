@@ -29,7 +29,8 @@ nav .link {
   padding: 8px 4px;
 }
 nav .link:hover {
-  background: white;
+  color: #537;
+  /* background: white; */
 }
 nav a {
   padding-left: 4px;
@@ -39,10 +40,11 @@ nav a {
   text-decoration: none;
   color: #758;
 }
-nav .current-page {
-  background: white;
+nav .current-page * {
+  /* background: white; */
+  color: black;
   cursor: default;
-  outline: 1px solid white;
+  /* outline: 1px solid white; */
 }
 main {
   padding: 1em;
