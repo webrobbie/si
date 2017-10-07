@@ -18,7 +18,7 @@ header,main {
 }
 header {
   text-align: center;
-  padding: 15px 25px 15px 5px;
+  padding-top: 20px;
 }
 header a {
   cursor: default;
@@ -29,7 +29,7 @@ header a {
 }
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 nav .link {
   /* flex: 1; */
