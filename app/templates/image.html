@@ -26,9 +26,9 @@
 {% if image.body %}
   <p>{{ image.body_to_html()|safe }}</p>
 {% endif %}
-<a href='{{ url_for("static",filename="upload/"+image.filename) }}'>
+<!-- <a href='{{ url_for("static",filename="upload/"+image.filename) }}'> -->
   <img class='image-img' src='{{ url_for("static",filename="upload/"+image.filename) }}'>
-</a>
+  <!-- </a> -->
 <br><hr><br>
 
 <h2>Comments</h2>

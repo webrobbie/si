@@ -51,9 +51,6 @@ class Post(db.Model):
         pattern=re.compile(r'\*img\*(.*?)\*img\*')
         if location in ('article','album'):
             html=pattern.sub(r'<img class="center-img" src="../static/upload/\1" alt="\1">',html)
-        else:
-            html=pattern.sub(r'<img class="center-img" src="static/upload/\1" alt="\1">',html)
-        if location in ('article','album'):
             #bold
             pattern=re.compile(r'\*b\*(.*?)\*b\*')
             html=pattern.sub(r'<strong>\1</strong>',html)
@@ -64,6 +61,9 @@ class Post(db.Model):
             pattern=re.compile(r'\*u\*(.*?)\*u\*')
             html=pattern.sub(r'<u>\1</u>',html)
         else:
+            html=pattern.sub(r'<img class="center-img" src="static/upload/\1" alt="\1">',html)
+            pattern=re.compile(r'.jpg')
+            html=pattern.sub(r'_thumbnail.jpg',html)
             pattern=re.compile(r'\*[biu]\*')
             html=pattern.sub(r'',html)
         return html

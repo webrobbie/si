@@ -17,7 +17,7 @@
   <section class='album-pics'>
   {% for image in post.images|sort(attribute='rank') %}
     <a href='{{ url_for("image",img_id=image.id) }}'>
-      <img src='{{ url_for("static",filename="upload/"+image.filename) }}'>
+      <img src='{{ url_for("static",filename="upload/"+image.filename.split('.')[0]+"_thumbnail.jpg") }}'>
     </a>
   {% endfor %}
   </section>

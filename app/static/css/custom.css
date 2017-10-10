@@ -1,7 +1,7 @@
-@font-face {
-  font-family: 'GreatVibesRegular';
-  src: url('GreatVibes-Regular.otf');
-}
+/* @font-face { */
+  /* font-family: 'GreatVibesRegular'; */
+  /* src: url('GreatVibes-Regular.otf'); */
+/* } */
 * {  font-family: Tahoma, Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
 }
 body {
@@ -22,10 +22,13 @@ header {
 }
 header a {
   cursor: default;
-  font-family: 'GreatVibesRegular',sans-serif;
-  font-size: 5em;
-  text-decoration: none;
-  color: black;
+  /* font-family: 'GreatVibesRegular',sans-serif; */
+  /* font-size: 5em; */
+  /* text-decoration: none; */
+  /* color: black; */
+}
+header img {
+  width: 120px;
 }
 nav {
   display: flex;
@@ -112,7 +115,7 @@ article.comment:hover {
 .album-pics img {
   flex: 1;
   width: 120px;
-  height: 90px;
+  height: 120px;
   margin: 0.5em;
   object-fit: cover;
 }

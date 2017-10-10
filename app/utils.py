@@ -16,3 +16,6 @@ def markup_to_html(text):
     #linebreak
     # text=re.sub(r'\n','<br>',text)
     return text
+
+img_size=(1280,800)
+thumbnail_size=(120,90)

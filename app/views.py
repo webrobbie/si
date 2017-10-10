@@ -1,6 +1,7 @@
 from flask import render_template,redirect,url_for,flash,request,session
 from flask_login import login_user,logout_user,login_required,current_user
 from datetime import datetime
+import PIL.Image
 import re,os,operator
 from . import app,db
 from .forms import *
@@ -36,16 +37,22 @@ def article(post_id):
 #}}}
 #NEW ARTICLE{{{
 @app.route('/new_article/',methods=['GET','POST'])
-@login_required
+#@login_required
 def new_article():
     form=ArticleForm()
     if form.validate_on_submit():
         for f in request.files.getlist('file'):
             if f.filename and f.filename in form.body.data:#always f.filename?
                 if f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                    f.save(app.config['UPLOAD_TO']+f.filename)
+                    name=os.path.splitext(f.filename)[0]
+                    big_pic=PIL.Image.open(f)
+                    big_pic.thumbnail((800,2000))
+                    big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')
+                    small_pic=PIL.Image.open(f)
+                    small_pic.thumbnail((240,240))
+                    small_pic.save(app.config['UPLOAD_TO']+name+'_thumbnail.jpg')
                 else:
-                    flash(f.filename+' not saved (filename already existing).','red')
+                    flash(f.filename+' not saved (filename already existing)','red')
         post=Post(
             title=form.title.data,
             body=form.body.data,
@@ -79,7 +86,13 @@ def edit_article(post_id):
         for f in request.files.getlist('file'):
             if f.filename and f.filename in form.body.data:
                 if f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                    f.save(app.config['UPLOAD_TO']+f.filename)
+                    name=os.path.splitext(f.filename)[0]
+                    big_pic=PIL.Image.open(f)
+                    big_pic.thumbnail((800,2000))
+                    big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')
+                    small_pic=PIL.Image.open(f)
+                    small_pic.thumbnail((240,240))
+                    small_pic.save(app.config['UPLOAD_TO']+name+'_thumbnail.jpg')
                 else:
                     flash(f.filename+' not saved (filename already existing).','red')
         post.title=form.title.data
@@ -146,7 +159,7 @@ def album(post_id):
 #}}}
 #NEW ALBUM{{{
 @app.route('/new_album',methods=['GET','POST'])
-@login_required
+# @login_required
 def new_album():
     form=AlbumForm()
     if form.validate_on_submit():
@@ -158,11 +171,20 @@ def new_album():
         db.session.add(post)
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
+            name=''
             if f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                f.save(app.config['UPLOAD_TO']+f.filename)
+                # f.save(app.config['UPLOAD_TO']+f.filename)
+                name=os.path.splitext(f.filename)[0]
+                big_pic=PIL.Image.open(f)
+                big_pic.thumbnail((800,2000))
+                big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')
+                small_pic=PIL.Image.open(f)
+                small_pic.thumbnail((240,240))
+                small_pic.save(app.config['UPLOAD_TO']+name+'_thumbnail.jpg')
             else:
                 flash(f.filename+' not saved (filename already existing).','red')
-            image=Image(filename=f.filename,post=post)
+            # image=Image(filename=f.filename,post=post)
+            image=Image(filename=name+'.jpg',post=post)
             db.session.add(image)
         images=post.images.all()
         for image,n in zip(images,range(1,len(images)+1)):
@@ -193,11 +215,19 @@ def edit_album(post_id):
     if form.validate_on_submit():
         files=[f for f in request.files.getlist('file') if f.filename]
         for f in files:
+            name=''
             if f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                f.save(app.config['UPLOAD_TO']+f.filename)
+                # f.save(app.config['UPLOAD_TO']+f.filename)
+                name=os.path.splitext(f.filename)[0]
+                big_pic=PIL.Image.open(f)
+                big_pic.thumbnail((800,2000))
+                big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')
+                small_pic=PIL.Image.open(f)
+                small_pic.thumbnail((240,240))
+                small_pic.save(app.config['UPLOAD_TO']+name+'_thumbnail.jpg')
             else:
                 flash(f.filename+' not saved (filename already existing).','red')
-            image=Image(filename=f.filename,post=post)
+            image=Image(filename=name+'.jpg',post=post)
             db.session.add(image)
         images=post.images.all()
         for image,n in zip(images,range(1,len(images)+1)):
@@ -270,8 +300,15 @@ def edit_image(img_id):
     if form.validate_on_submit():
         for f in request.files.getlist('file'):
             if f.filename and f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                f.save(app.config['UPLOAD_TO']+f.filename)
-                image.filename=f.filename
+                # f.save(app.config['UPLOAD_TO']+f.filename)
+                name=os.path.splitext(f.filename)[0]
+                big_pic=PIL.Image.open(f)
+                big_pic.thumbnail((800,2000))
+                big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')
+                small_pic=PIL.Image.open(f)
+                small_pic.thumbnail((240,240))
+                small_pic.save(app.config['UPLOAD_TO']+name+'_thumbnail.jpg')
+                image.filename=name+'.jpg'
             else:
                 flash(f.filename+' not saved (filename already existing).','red')
         image.body=form.body.data
