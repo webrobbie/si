@@ -37,7 +37,7 @@ def article(post_id):
 #}}}
 #NEW ARTICLE{{{
 @app.route('/new_article/',methods=['GET','POST'])
-#@login_required
+@login_required
 def new_article():
     form=ArticleForm()
     if form.validate_on_submit():
@@ -160,7 +160,7 @@ def album(post_id):
 #}}}
 #NEW ALBUM{{{
 @app.route('/new_album',methods=['GET','POST'])
-# @login_required
+@login_required
 def new_album():
     form=AlbumForm()
     if form.validate_on_submit():
