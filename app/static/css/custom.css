@@ -1,4 +1,4 @@
-/* @font-face { */
+#/* @font-face { */
   /* font-family: 'GreatVibesRegular'; */
   /* src: url('GreatVibes-Regular.otf'); */
 /* } */
@@ -28,7 +28,7 @@ header a {
   /* color: black; */
 }
 header img {
-  width: 120px;
+  width: 100px;
 }
 nav {
   display: flex;
