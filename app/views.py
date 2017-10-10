@@ -42,9 +42,10 @@ def new_article():
     form=ArticleForm()
     if form.validate_on_submit():
         for f in request.files.getlist('file'):
-            if f.filename and f.filename in form.body.data:#always f.filename?
+            name=os.path.splitext(f.filename)[0]
+            if f.filename and name+'.jpg' in form.body.data:#always f.filename?
                 if f.filename not in os.listdir(app.config['UPLOAD_TO']):
-                    name=os.path.splitext(f.filename)[0]
+                    # name=os.path.splitext(f.filename)[0]
                     big_pic=PIL.Image.open(f)
                     big_pic.thumbnail((800,2000))
                     big_pic.save(app.config['UPLOAD_TO']+name+'.jpg')

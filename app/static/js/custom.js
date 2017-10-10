@@ -55,9 +55,9 @@ function autoImg(input){
   /* get filename */
   var fullPath=input.value;
   var filename=fullPath.split(/[/\\]/)[fullPath.split(/[/\\]/).length-1];
-  /* var filename=filename.split('.')[0];*/
+  var filename=filename.split('.')[0];
   /* set textarea */
-  var newtext=alltext.substring(0,start)+'*img*'+filename+'*img*'+alltext.substring(end,alltext.length);
+  var newtext=alltext.substring(0,start)+'*img*'+filename+'.jpg*img*'+alltext.substring(end,alltext.length);
   textarea.value=newtext;
 };
 function highlightLabel(el){
